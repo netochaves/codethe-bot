@@ -1,8 +1,10 @@
 require('dotenv').config();
+
 const Discord = require('discord.js');
+const botCommands = require('./commands');
+
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
-const botCommands = require('./commands');
 
 Object.keys(botCommands).map(key => {
   bot.commands.set(botCommands[key].name, botCommands[key]);
@@ -19,9 +21,9 @@ bot.on('ready', () => {
 bot.on('message', msg => {
   const args = msg.content.split(/ +/);
   const command = args.shift().toLowerCase();
-  console.info(`Called command: ${command}`);
 
   if (!bot.commands.has(command)) return;
+  console.info(`Called command: ${command}`);
 
   try {
     bot.commands.get(command).execute(msg, args);
