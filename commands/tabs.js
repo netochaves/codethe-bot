@@ -12,11 +12,11 @@ module.exports = {
   add: {
     name: '!poenaconta',
     description: 'Adiciona um débito na conta de alguém',
-    async execute(msg, args) {
+    async execute(msg, [debtor, type, quantity = 1]) {
       const response = await updateTab(
-        args[0],
-        args[1],
-        parseInt(args[2] || 1, 10)
+        debtor,
+        type,
+        parseInt(quantity, 10)
       );
       msg.channel.send(response);
     }
@@ -24,8 +24,12 @@ module.exports = {
   remove: {
     name: '!pagou',
     description: 'Remove débitos na conta de alguém',
-    async execute(msg, args) {
-      const response = await updateTab(args[0], args[1], -1 * parseInt(args[2] || 1, 10));
+    async execute(msg, [debtor, type, quantity = 1]) {
+      const response = await updateTab(
+        debtor,
+        type,
+        -1 * parseInt(quantity, 10)
+      );
       msg.channel.send(response);
     }
   },
